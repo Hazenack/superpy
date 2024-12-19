@@ -46,15 +46,14 @@ def main():
     subparsers = parser.add_subparsers(dest="command")
 
     buy_parser = subparsers.add_parser('buy', help='Koop een product en voeg het toe aan de voorraad')
-    buy_parser.add_argument('--id', required=True, type-int, help='ID-nr van de aankoop')
     buy_parser.add_argument('--product_name', required=True, help='Naam van het product dat je wilt kopen')
     buy_parser.add_argument('--buy_date', required=True, help='Aankoopdatum van het product in het formaat YYYY-MM-DD')
     buy_parser.add_argument('--buy_price', required=True, type=float, help='Koopprijs van het product')
     buy_parser.add_argument('--expiration_date', required=True, help='Vervaldatum van het product in het formaat YYYY-MM-DD')
 
     sell_parser = subparsers.add_parser('sell', help='Verkoop een product en verwijder het uit de voorraad')
-    sell_parser.add_argument('--product-id', required=True, type-int, help='ID-nr van het product dat je wilt verkopen')
-    sell_parser.add_argument('--bought-id', required=True, type-int, help='ID-nr van de verkoop')
+    sell_parser.add_argument('--product-id', required=True, type=int, help='ID-nr van het product dat je wilt verkopen')
+    sell_parser.add_argument('--bought-id', required=True, type=int, help='ID-nr van de verkoop')
     sell_parser.add_argument('--product-name', required=True, help='Naam van het product dat je wilt verkopen')
     sell_parser.add_argument('--sell-price', required=True, type=float, help='Verkoopprijs van het product')
 
@@ -63,9 +62,9 @@ def main():
     args = parser.parse_args()
 
     if args.command == 'buy':
-        add_bought_product(args.product_name, args.buy_price, args.expiration_date)
+        add_bought_product(args.product_name, args.buy_date, args.buy_price, args.expiration_date)
     elif args.command == 'sell':
-        add_sold_product(args.product_name, args.sell_price)
+        add_sold_product(args.bought_id, args.sell_date, args.sell_price)
     elif args.command == 'inventory':
         display_inventory()
     else:
