@@ -9,7 +9,8 @@ __human_name__ = "superpy"
 
 # Your code below this line.
 
-# ! DIT WERKT NOG NIET - HOE KRIJG IK HET WEL VOOR ELKAAR? # De id-kolom wordt automatisch verhoogd voor elke nieuwe invoer in: bought.csv en sold.csv.
+# ! DIT WERKT NOG NIET HELEMAAL VANZELF - na 1e invoer moet ik rij aanpassen 
+# De id-kolom wordt automatisch verhoogd voor elke nieuwe invoer in: bought.csv en sold.csv.
 def get_next_id(filename):
     try: 
         with open(filename, mode='r') as file:
