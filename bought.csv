@@ -1,3 +1,1 @@
-1,appel,2024-12-19,0.5,2025-12-12
-1,peer,2024-12-19,0.75,2025-12-12
-2,aardbei,2024-12-19,0.01,2025-12-12
+id, product_name, buy_date, buy_price< expiration_date
