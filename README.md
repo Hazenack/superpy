@@ -5,6 +5,7 @@ Mijn Winc eindproject voor Python
 Superpy is een voorraadbeheersysteem. Hiermee kan je producten kopen, verkopen, de voorraad bekijken en de totale aankoopprijs per product berekenen.
 
 Ook kan de interne datum van het systeem gewijzigd worden.
+---------
 
 **MANUAL**
 
@@ -19,7 +20,6 @@ Bijvoorbeeld:
 cd path/to/your/project
 
 Voer het script uit:
-...
 
 **VOORBEELD**
 
@@ -28,7 +28,7 @@ Voer het script uit vanuit de terminal met de volgende commando's:
 `python superpy.py sell --product-name orange --sell-price 1.0`
 `python superpy.py inventory`
 `python superpy.py total_buy_price`
-...
+---------
 
 **COMMANDO'S**
 
@@ -67,10 +67,9 @@ Voer het script uit vanuit de terminal met de volgende commando's:
 
    Voorbeeld:
    $ python superpy.py advance_time 0
-...
-
-**BESTANDEN**
 ---------
+**BESTANDEN**
+
 1. **bought.csv**: Bevat de gekochte producten met de volgende kolommen:
    - id
    - product_name
@@ -85,10 +84,26 @@ Voer het script uit vanuit de terminal met de volgende commando's:
    - sell_price
 
 3. **current_date.txt**: Bevat de huidige interne datum van het systeem in het formaat YYYY-MM-DD.
-...
+---------
 
 **Foutopsporing**
 . Krijg je een foutmelding krijgt over ontbrekende kolommen in een CSV-bestand? Controleer dan of de kolomkoppen correct zijn en overeenkomen met de verwachte kolommen.
 . Als je een foutmelding krijgt over een ontbrekend bestand, zorg er dan voor dat het bestand bestaat en de juiste gegevens bevat.
-...
+---------
 
+**RAPPORT**
+
+Dit rapport bespreekt drie elementen van dit `superpy` script. De automatische aanmaak ID voor CSV-bestanden. En `rich` voor het weergeven tabellen. En Matplotlib voor het visualiseren van statistieken. 
+
+**Automatische ID nr.**
+De functie `get_next_id` maakt automatisch unieke ID’s aan voor nieuwe invoer in de bestanden `bought.csv` en `sold.csv`. Deze functie leest de bestaande ID's uit het CSV-bestand, bepaalt de hoogste ID en verhoogt deze met één voor de nieuwe invoer. Dit is belangrijk voor het bijhouden van producten. 
+
+**Rich voor Tabellen**
+En `rich` wordt gebruikt om tabellen weer te geven.
+De functies `display_inventory` en `display_total_buy_price_per_product` maken gebruik van de `Table` klasse uit van `rich` om tabellen te maken en op te maken. Hierdoor worden de gegevens leesbaarder.
+
+**Matplotlib voor Statistieken**
+Matplotlib in de functie `visualize_statistics` is voor het aanmaken van staafdiagrammen die de aankoopprijzen van producten laten zien. Deze functie haalt gegevens uit `bought.csv` bestand en haalt productnamen en aankoopprijzen op. Deze visuele output van de gegevens helpt bij het zien van trends en patronen.
+
+**EIND**
+---------
