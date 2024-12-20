@@ -93,17 +93,20 @@ Voer het script uit vanuit de terminal met de volgende commando's:
 
 **RAPPORT**
 
-Dit rapport bespreekt drie elementen van dit `superpy` script. De automatische aanmaak ID voor CSV-bestanden. En `rich` voor het weergeven tabellen. En Matplotlib voor het visualiseren van statistieken. 
+**Inleiding**
+Dit rapport bespreekt drie belangrijke punten van dit `superpy` script. Deze zijn de automatische aanmaak van ID's voor CSV-bestanden, het gebruik van `rich` voor het weergeven van tabellen, en de integratie van Matplotlib voor het visualiseren van statistieken.
 
-**Automatische ID nr.**
-De functie `get_next_id` maakt automatisch unieke ID’s aan voor nieuwe invoer in de bestanden `bought.csv` en `sold.csv`. Deze functie leest de bestaande ID's uit het CSV-bestand, bepaalt de hoogste ID en verhoogt deze met één voor de nieuwe invoer. Dit is belangrijk voor het bijhouden van producten. 
+**Automatische ID aanmaak**
+De functie `get_next_id` maakt automatisch unieke ID's aan voor nieuwe invoer in de bestanden `bought.csv` en `sold.csv`. Deze functie leest de bestaande ID's uit het CSV-bestand, bepaalt de hoogste ID en verhoogt deze met één voor de nieuwe invoer. Elke unieke ID invoer is belangrijk is voor het bijhouden van producten. 
 
 **Rich voor Tabellen**
-En `rich` wordt gebruikt om tabellen weer te geven.
-De functies `display_inventory` en `display_total_buy_price_per_product` maken gebruik van de `Table` klasse uit van `rich` om tabellen te maken en op te maken. Hierdoor worden de gegevens leesbaarder.
+`rich` wordt gebruikt om tabellen in de console weer te geven. Functies zoals `display_inventory` en `display_total_buy_price_per_product` gebruikende `Table` class uit `rich` om tabellen te maken. Dit geeft leesbare gegevens.
 
-**Matplotlib voor Statistieken**
-Matplotlib in de functie `visualize_statistics` is voor het aanmaken van staafdiagrammen die de aankoopprijzen van producten laten zien. Deze functie haalt gegevens uit `bought.csv` bestand en haalt productnamen en aankoopprijzen op. Deze visuele output van de gegevens helpt bij het zien van trends en patronen.
+** Matplotlib**
+Met Matplotlib in de functie `visualize_statistics` kunnen staafdiagrammen gemaakt worden die de aankoopprijzen van producten laten zien. Deze functie leest gegevens uit het `bought.csv` bestand, haalt productnamen en aankoopprijzen op en maakt een staafdiagram. Dit geeft een visuele gegevens weergave waarmee trends en patronen ontdekt kunnen worden.
+
+**Conclusie**
+De implementatie van automatische ID-generatie, het gebruik van de `rich` bibliotheek voor het weergeven van tabellen, en de integratie van Matplotlib voor het visualiseren van statistieken zijn drie belangrijke technische elementen van het `superpy` script. Elk element lost specifieke problemen op en verbetert de functionaliteit en gebruikerservaring van het script. Deze functies maken het script betrouwbaarder, gebruiksvriendelijker en visueel aantrekkelijker, wat bijdraagt aan een betere algehele ervaring voor de gebruiker.
 
 **EIND**
 ---------
