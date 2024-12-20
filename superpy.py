@@ -2,12 +2,16 @@ import argparse
 import csv
 import sys
 from datetime import datetime, timedelta
+from rich.console import Console
+from rich.table import Table
 
 # Do not change these lines.
 __winc_id__ = "a2bc36ea784242e4989deb157d527ba0"
 __human_name__ = "superpy"
 
 # Your code below this line.
+
+console = Console()
 
 # ! DIT WERKT NOG NIET HELEMAAL VANZELF - na 1e invoer moet ik rij aanpassen 
 # De id-kolom wordt automatisch verhoogd voor elke nieuwe invoer in: bought.csv en sold.csv.
@@ -39,12 +43,20 @@ def add_sold_product(bought_id, sell_date, sell_price):
 
 # INVENTARIS
 def display_inventory():
+    table = Table(title="Voorraad")
+    table.add_column("ID", justify="right", style="cyan", no_wrap=True)
+    table.add_column("Product Name", style="magenta")
+    table.add_column("Buy Date", justify="right", style="green")
+    table.add_column("Buy Price", justify="right", style="green")
+    table.add_column("Expiration Date", justify="right", style="green")
+
     with open('bought.csv', mode='r') as file:
         reader = csv.reader(file)
-        inventory = list(reader)
-    print("Voorraad:")
-    for item in inventory:
-        print(item)
+        next(reader)  # Skip header
+        for row in reader:
+            table.add_row(*row)
+    
+    console.print(table)
 
 # TOTALE KOOPPRIJS PER PRODUCT
 # toegevoegd voor versie 2
@@ -54,22 +66,27 @@ def display_total_buy_price_per_product():
             reader = csv.DictReader(file)
             product_totals = {}
             for row in reader:
-                print(f"Processing row: {row}")  # Debugging line
                 product_name = row['product_name']
                 buy_price = float(row['buy_price'])
                 if product_name in product_totals:
                     product_totals[product_name] += buy_price
                 else:
                     product_totals[product_name] = buy_price
-        print("Totale koopprijs per product:")
+        
+        table = Table(title="Totale koopprijs per product")
+        table.add_column("Product Name", style="magenta")
+        table.add_column("Total Buy Price", justify="right", style="green")
+
         for product_name, total_buy_price in product_totals.items():
-            print(f"{product_name}: {total_buy_price}")
+            table.add_row(product_name, f"{total_buy_price:.2f}")
+        
+        console.print(table)
     except FileNotFoundError:
-        print("Error: 'bought.csv' file not found.")
+        console.print("[bold red]Error: 'bought.csv' file not found.[/bold red]")
     except KeyError as e:
-        print(f"Error: Missing expected column in CSV file: {e}")
+        console.print(f"[bold red]Error: Missing expected column in CSV file: {e}[/bold red]")
     except Exception as e:
-        print(f"An unexpected error occurred: {e}")
+        console.print(f"[bold red]An unexpected error occurred: {e}[/bold red]")
 
 def get_current_date():
     try:
@@ -104,12 +121,12 @@ def calculate_revenue_and_profit(start_date, end_date):
                     cost += get_buy_price(bought_id)
         
         profit = revenue - cost
-        print(f"Revenue from {start_date} to {end_date}: {revenue}")
-        print(f"Profit from {start_date} to {end_date}: {profit}")
+        console.print(f"[bold green]Revenue from {start_date} to {end_date}: {revenue:.2f}[/bold green]")
+        console.print(f"[bold green]Profit from {start_date} to {end_date}: {profit:.2f}[/bold green]")
     except FileNotFoundError:
-        print("Error: 'sold.csv' file not found.")
+        console.print("[bold red]Error: 'sold.csv' file not found.[/bold red]")
     except Exception as e:
-        print(f"An unexpected error occurred: {e}")
+        console.print(f"[bold red]An unexpected error occurred: {e}[/bold red]")
 
 def get_buy_price(bought_id):
     try:
