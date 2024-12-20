@@ -1,3 +1,4 @@
-versie 1
-versie 2
-versie 3
+versie 1 diversen
+versie 2 diversen
+versie 3 diversen
+versie 4 readme en commando uitleg
