@@ -1,10 +1,10 @@
 # superpy
 Mijn Winc eindproject voor Python
 
-MANUAL
+**MANUAL**
 
 Bestand opslaan en uitvoeren:
-Sla het bestand op door op File > Save te klikken of gebruik de sneltoets Ctrl + S (Windows) of Cmd + S (Mac).
+Sla het bestand op.
 
 Open een terminal in VS Code:
 Ga naar View > Terminal om een terminal te openen in VS Code.
@@ -15,16 +15,18 @@ cd path/to/your/project
 Voer het script uit:
 ...
 
-VOORBEELD
+**VOORBEELD**
 
 Voer het script uit vanuit de terminal met de volgende commando's:
-python superpy.py buy --product-name orange --buy-price 0.8 --expiration-date 2020-01-01
-python superpy.py sell --product-name orange --sell-price 1.0
-python superpy.py inventory
+`python superpy.py buy --product-name orange --buy-price 0.8 --expiration-date 2020-01-01`
+`python superpy.py sell --product-name orange --sell-price 1.0`
+`python superpy.py inventory`
+`python superpy.py total_buy_price`
 ...
 
-COMMANDOS
+**COMMANDOS**
 Dit zal een overzicht geven van alle beschikbare commando's en hun beschrijvingen
-python superpy.py –help
+`python superpy.py –help`
+
 ...
 
