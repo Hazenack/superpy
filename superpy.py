@@ -1,7 +1,7 @@
 import argparse
 import csv
 import sys
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # Do not change these lines.
 __winc_id__ = "a2bc36ea784242e4989deb157d527ba0"
@@ -72,6 +72,23 @@ def display_total_buy_price_per_product():
     except Exception as e:
         print(f"An unexpected error occurred: {e}")
 
+def get_current_date():
+    try:
+        with open('current_date.txt', mode='r') as file:
+            return datetime.strptime(file.read().strip(), '%Y-%m-%d').date()
+    except FileNotFoundError:
+        current_date = datetime.now().date()
+        with open('current_date.txt', mode='w') as file:
+            file.write(current_date.strftime('%Y-%m-%d'))
+        return current_date
+
+def advance_time(days):
+    current_date = get_current_date()
+    new_date = current_date + timedelta(days=days)
+    with open('current_date.txt', mode='w') as file:
+        file.write(new_date.strftime('%Y-%m-%d'))
+    print(f"Date advanced by {days} days. New date is {new_date}")
+
 def main():
     parser = argparse.ArgumentParser(description="Superpy voorraadbeheersysteem")
     subparsers = parser.add_subparsers(dest="command")
@@ -91,9 +108,13 @@ def main():
 
     total_buy_price_parser = subparsers.add_parser('total_buy_price', help='Bekijk de totale aankoopprijs per product')
 
+# Mogelijkheid datums te verplaaten
+    advance_time_parser = subparsers.add_parser('advance_time', help='Verplaats de interne datum met een aantal dagen')
+    advance_time_parser.add_argument('days', type=int, help='Aantal dagen om de datum te verplaatsen')
+
     args = parser.parse_args()
 
-    print(f"Command: {args.command}")  # Debugging line
+    print(f"Command: {args.command}")
 
     if args.command == 'buy':
         add_bought_product(args.product_name, args.buy_date, args.buy_price, args.expiration_date)
@@ -103,6 +124,8 @@ def main():
         display_inventory()
     elif args.command == 'total_buy_price':
         display_total_buy_price_per_product()
+    elif args.command == 'advance_time':
+        advance_time(args.days)
     else:
         parser.print_help()
 

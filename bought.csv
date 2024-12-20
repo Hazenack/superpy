@@ -9,3 +9,4 @@ id,product_name,buy_date,buy_price,expiration_date
 8,kiwi,2024-12-19,0.1,2025-12-12
 9,kiwi,2024-12-19,0.1,2025-12-12
 10,kiwi,2024-12-19,0.1,2025-12-12
+11,orange,2024-12-19,2.0,2025-12-01
