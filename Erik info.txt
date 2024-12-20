@@ -2,3 +2,6 @@ versie 1 diversen
 versie 2 diversen
 versie 3 diversen
 versie 4 readme en commando uitleg
+versie 5
+versie 6
+versie 7 Rich
