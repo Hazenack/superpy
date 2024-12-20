@@ -2,7 +2,7 @@
 
 Mijn Winc eindproject voor Python
 
-Superpy is een voorraadbeheersysteem. Hiermee kan je producten kopen, verkopen, de voorraad bekijken en de totale aankoopprijs per product kan berekenen.
+Superpy is een voorraadbeheersysteem. Hiermee kan je producten kopen, verkopen, de voorraad bekijken en de totale aankoopprijs per product berekenen.
 
 Ook kan de interne datum van het systeem gewijzigd worden.
 

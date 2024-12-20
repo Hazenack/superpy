@@ -30,7 +30,6 @@ def add_bought_product(product_name, buy_date, buy_price, expiration_date):
     print(f"Product {product_name} gekocht voor {buy_price} met vervaldatum {expiration_date}")
 
 # VERKOPEN
-# Elke invoer krijgt unieke id die wordt verhoogd voor elke nieuwe regel.
 def add_sold_product(bought_id, sell_date, sell_price):
     next_id = get_next_id('sold.csv')
     with open('sold.csv', mode='a', newline='') as file:
@@ -89,6 +88,70 @@ def advance_time(days):
         file.write(new_date.strftime('%Y-%m-%d'))
     print(f"Date advanced by {days} days. New date is {new_date}")
 
+# omzet en winst [lastige puzzel maar werkt nu]
+def calculate_revenue_and_profit(start_date, end_date):
+    revenue = 0.0
+    cost = 0.0
+
+    try:
+        with open('sold.csv', mode='r') as sold_file:
+            sold_reader = csv.DictReader(sold_file)
+            for row in sold_reader:
+                sell_date = datetime.strptime(row['sell_date'], '%Y-%m-%d').date()
+                if start_date <= sell_date <= end_date:
+                    revenue += float(row['sell_price'])
+                    bought_id = int(row['bought_id'])
+                    cost += get_buy_price(bought_id)
+        
+        profit = revenue - cost
+        print(f"Revenue from {start_date} to {end_date}: {revenue}")
+        print(f"Profit from {start_date} to {end_date}: {profit}")
+    except FileNotFoundError:
+        print("Error: 'sold.csv' file not found.")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+
+def get_buy_price(bought_id):
+    try:
+        with open('bought.csv', mode='r') as bought_file:
+            bought_reader = csv.DictReader(bought_file)
+            for row in bought_reader:
+                if int(row['id']) == bought_id:
+                    return float(row['buy_price'])
+        return 0.0
+    except FileNotFoundError:
+        print("Error: 'bought.csv' file not found.")
+        return 0.0
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+        return 0.0
+
+def export_bought_products(filename):
+    try:
+        with open('bought.csv', mode='r') as infile, open(filename, mode='w', newline='') as outfile:
+            reader = csv.reader(infile)
+            writer = csv.writer(outfile)
+            for row in reader:
+                writer.writerow(row)
+        print(f"Aangekochte product is geëxporteerd naar {filename}")
+    except FileNotFoundError:
+        print("Error: 'bought.csv' file not found.")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+
+def export_sold_products(filename):
+    try:
+        with open('sold.csv', mode='r') as infile, open(filename, mode='w', newline='') as outfile:
+            reader = csv.reader(infile)
+            writer = csv.writer(outfile)
+            for row in reader:
+                writer.writerow(row)
+        print(f"Verkocht product is geëxporteerd naar {filename}")
+    except FileNotFoundError:
+        print("Error: 'sold.csv' file not found.")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+
 def main():
     parser = argparse.ArgumentParser(description="Superpy voorraadbeheersysteem")
     subparsers = parser.add_subparsers(dest="command")
@@ -108,9 +171,18 @@ def main():
 
     total_buy_price_parser = subparsers.add_parser('total_buy_price', help='Bekijk de totale aankoopprijs per product')
 
-# Mogelijkheid datums te verplaaten
     advance_time_parser = subparsers.add_parser('advance_time', help='Verplaats de interne datum met een aantal dagen')
     advance_time_parser.add_argument('days', type=int, help='Aantal dagen om de datum te verplaatsen')
+
+    revenue_profit_parser = subparsers.add_parser('revenue_profit', help='Rapporteer omzet en winst over een bepaalde periode')
+    revenue_profit_parser.add_argument('--start_date', required=True, help='Startdatum van de periode in het formaat YYYY-MM-DD')
+    revenue_profit_parser.add_argument('--end_date', required=True, help='Einddatum van de periode in het formaat YYYY-MM-DD')
+
+    export_bought_parser = subparsers.add_parser('export_bought', help='Exporteer gekochte producten naar een CSV-bestand')
+    export_bought_parser.add_argument('filename', help='Naam van het CSV-bestand om naar te exporteren')
+
+    export_sold_parser = subparsers.add_parser('export_sold', help='Exporteer verkochte producten naar een CSV-bestand')
+    export_sold_parser.add_argument('filename', help='Naam van het CSV-bestand om naar te exporteren')
 
     args = parser.parse_args()
 
@@ -126,6 +198,14 @@ def main():
         display_total_buy_price_per_product()
     elif args.command == 'advance_time':
         advance_time(args.days)
+    elif args.command == 'revenue_profit':
+        start_date = datetime.strptime(args.start_date, '%Y-%m-%d').date()
+        end_date = datetime.strptime(args.end_date, '%Y-%m-%d').date()
+        calculate_revenue_and_profit(start_date, end_date)
+    elif args.command == 'export_bought':
+        export_bought_products(args.filename)
+    elif args.command == 'export_sold':
+        export_sold_products(args.filename)
     else:
         parser.print_help()
 
