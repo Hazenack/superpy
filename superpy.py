@@ -47,6 +47,31 @@ def display_inventory():
     for item in inventory:
         print(item)
 
+# TOTALE KOOPPRIJS PER PRODUCT
+# toegevoegd voor versie 2
+def display_total_buy_price_per_product():
+    try:
+        with open('bought.csv', mode='r') as file:
+            reader = csv.DictReader(file)
+            product_totals = {}
+            for row in reader:
+                print(f"Processing row: {row}")  # Debugging line
+                product_name = row['product_name']
+                buy_price = float(row['buy_price'])
+                if product_name in product_totals:
+                    product_totals[product_name] += buy_price
+                else:
+                    product_totals[product_name] = buy_price
+        print("Totale koopprijs per product:")
+        for product_name, total_buy_price in product_totals.items():
+            print(f"{product_name}: {total_buy_price}")
+    except FileNotFoundError:
+        print("Error: 'bought.csv' file not found.")
+    except KeyError as e:
+        print(f"Error: Missing expected column in CSV file: {e}")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+
 def main():
     parser = argparse.ArgumentParser(description="Superpy voorraadbeheersysteem")
     subparsers = parser.add_subparsers(dest="command")
@@ -64,7 +89,11 @@ def main():
 
     inventory_parser = subparsers.add_parser('inventory', help='Bekijk de huidige voorraad')
 
+    total_buy_price_parser = subparsers.add_parser('total_buy_price', help='Bekijk de totale aankoopprijs per product')
+
     args = parser.parse_args()
+
+    print(f"Command: {args.command}")  # Debugging line
 
     if args.command == 'buy':
         add_bought_product(args.product_name, args.buy_date, args.buy_price, args.expiration_date)
@@ -72,6 +101,8 @@ def main():
         add_sold_product(args.bought_id, args.sell_date, args.sell_price)
     elif args.command == 'inventory':
         display_inventory()
+    elif args.command == 'total_buy_price':
+        display_total_buy_price_per_product()
     else:
         parser.print_help()
 
