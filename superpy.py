@@ -4,6 +4,7 @@ import sys
 from datetime import datetime, timedelta
 from rich.console import Console
 from rich.table import Table
+import matplotlib.pyplot as plt
 
 # Do not change these lines.
 __winc_id__ = "a2bc36ea784242e4989deb157d527ba0"
@@ -169,6 +170,31 @@ def export_sold_products(filename):
     except Exception as e:
         print(f"An unexpected error occurred: {e}")
 
+def visualize_statistics():
+    try:
+        with open('bought.csv', mode='r') as file:
+            reader = csv.DictReader(file)
+            product_names = []
+            buy_prices = []
+            for row in reader:
+                product_names.append(row['product_name'])
+                buy_prices.append(float(row['buy_price']))
+        
+        plt.figure(figsize=(10, 5))
+        plt.bar(product_names, buy_prices, color='blue')
+        plt.xlabel('Product Name')
+        plt.ylabel('Buy Price')
+        plt.title('Buy Price per Product')
+        plt.xticks(rotation=45, ha='right')
+        plt.tight_layout()
+        plt.show()
+    except FileNotFoundError:
+        console.print("[bold red]Error: 'bought.csv' file not found.[/bold red]")
+    except KeyError as e:
+        console.print(f"[bold red]Error: Missing expected column in CSV file: {e}[/bold red]")
+    except Exception as e:
+        console.print(f"[bold red]An unexpected error occurred: {e}[/bold red]")
+
 def main():
     parser = argparse.ArgumentParser(description="Superpy voorraadbeheersysteem")
     subparsers = parser.add_subparsers(dest="command")
@@ -201,6 +227,8 @@ def main():
     export_sold_parser = subparsers.add_parser('export_sold', help='Exporteer verkochte producten naar een CSV-bestand')
     export_sold_parser.add_argument('filename', help='Naam van het CSV-bestand om naar te exporteren')
 
+    visualize_parser = subparsers.add_parser('visualize', help='Visualiseer statistieken met Matplotlib')
+
     args = parser.parse_args()
 
     print(f"Command: {args.command}")
@@ -223,6 +251,8 @@ def main():
         export_bought_products(args.filename)
     elif args.command == 'export_sold':
         export_sold_products(args.filename)
+    elif args.command == 'visualize':
+        visualize_statistics()
     else:
         parser.print_help()
 
